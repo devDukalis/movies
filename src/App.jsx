@@ -6,6 +6,8 @@ import { truncateText } from "./utils/index.js"
 import MoviesApi from "./services/api.js"
 import useOnlineStatus from "./hooks/useOnlineStatus"
 
+import "antd/dist/reset.css"
+
 const { Title, Paragraph } = Typography
 
 const API_KEY = import.meta.env.VITE_API_KEY
@@ -90,11 +92,20 @@ const App = () => {
   }
 
   return (
-    <div style={{ padding: "24px", maxWidth: 1200, margin: "0 auto" }}>
+    <div
+      style={{
+        maxWidth: 1200,
+        margin: "0 auto",
+        paddingLeft: 32,
+        paddingRight: 32,
+        paddingTop: 21,
+        paddingBottom: 0,
+        backgroundColor: "#FFFFFF",
+      }}>
       {!isOnline && (
         <Alert
           message="No Internet Connection"
-          description="Please check your network settings."
+          description="Please check your network settings"
           type="error"
           showIcon
           style={{ marginBottom: 24 }}
@@ -122,7 +133,7 @@ const App = () => {
         ) : (
           <List
             grid={{
-              gutter: 24,
+              gutter: [37, 37],
               xs: 1,
               sm: 1,
               md: 2,
@@ -132,10 +143,46 @@ const App = () => {
             }}
             dataSource={movies}
             renderItem={(movie) => (
-              <List.Item>
-                <Card hoverable style={{ width: "100%", overflow: "hidden" }}>
-                  <div style={{ display: "flex", minHeight: 280 }}>
-                    <div style={{ width: 200, height: 280, flexShrink: 0 }}>
+              <List.Item style={{ margin: 0 }}>
+                <Card
+                  style={{
+                    width: "100%",
+                    overflow: "hidden",
+                    borderRadius: 0,
+                    boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.1)",
+                  }}
+                  styles={{
+                    body: { padding: 0 },
+                  }}>
+                  {/* Рейтинг фильма */}
+                  <div style={{ display: "flex", minHeight: 280, position: "relative" }}>
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 10,
+                        right: 10,
+                        width: 30,
+                        height: 30,
+                        borderRadius: "50%",
+                        border: "2px solid #E9D100",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "white",
+                        zIndex: 1,
+                        fontSize: 12,
+                        fontWeight: "bold",
+                        lineHeight: 22,
+                      }}>
+                      {movie.vote_average?.toFixed(1)}
+                    </div>
+
+                    {/* Постер фильма */}
+                    <div
+                      style={{
+                        flexShrink: 0,
+                        borderRight: "1px solid #E0E0E0",
+                      }}>
                       <Image
                         alt={movie.title}
                         src={
@@ -147,7 +194,6 @@ const App = () => {
                           width: "180px",
                           height: "280px",
                           objectFit: "cover",
-                          fontSize: "20px",
                         }}
                         preview={false}
                         onError={(e) => {
@@ -163,25 +209,30 @@ const App = () => {
                         display: "flex",
                         flexDirection: "column",
                         maxHeight: "280px",
+                        paddingLeft: 20,
+                        paddingRight: 20,
                       }}>
                       <div
                         style={{
                           display: "flex",
                           justifyContent: "space-between",
                           alignItems: "flex-start",
-                          marginBottom: 16,
+                          marginBottom: 10,
                         }}>
-                        <Title level={4} style={{ margin: 0, flex: 1 }}>
+                        {/* Название фильма */}
+                        <Title level={4} style={{ margin: 0, flex: 1, paddingTop: 10 }}>
                           {movie.title}
                         </Title>
                       </div>
 
+                      {/* Дата выпуска фильма */}
                       <div style={{ marginBottom: 8, color: "#827E7E" }}>
                         {movie.release_date
                           ? format(new Date(movie.release_date), "MMM dd, yyyy")
                           : "N/A"}
                       </div>
 
+                      {/* Жанр фильма */}
                       <div
                         style={{
                           marginBottom: 8,
@@ -194,6 +245,7 @@ const App = () => {
                         {renderGenres(movie.genre_ids)}
                       </div>
 
+                      {/* Описание фильма */}
                       <Paragraph
                         style={{
                           flex: 1,

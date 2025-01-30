@@ -20,9 +20,7 @@ class MoviesApi {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
 
-    const data = await response.json()
-
-    return data.results
+    return response.json()
   }
 
   async fetchGenres() {

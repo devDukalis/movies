@@ -6,6 +6,7 @@ const SearchBar = ({ value, onChange }) => (
     onChange={onChange}
     placeholder="Type to search..."
     allowClear
+    name="search"
     style={{ marginBottom: 24, height: 40, fontSize: 16 }}
   />
 )

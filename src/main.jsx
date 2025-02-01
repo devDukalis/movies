@@ -1,12 +1,16 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
+import { ErrorBoundary } from "react-error-boundary"
 
-import App from "./App.jsx"
+import App from "./components/App/App"
+import ErrorFallback from "./components/ErrorFallback/ErrorFallback"
 
 import "./index.css"
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <App />
+    </ErrorBoundary>
   </StrictMode>,
 )

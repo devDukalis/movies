@@ -33,7 +33,15 @@ const MovieCard = ({ movie, genres, fallbackSVG }) => (
           maxHeight: "280px",
           padding: "0 20px",
         }}>
-        <Title level={4} style={{ margin: 0, paddingTop: 10, paddingBottom: 10 }}>
+        <Title
+          level={4}
+          style={{
+            margin: 0,
+            paddingTop: 10,
+            paddingBottom: 10,
+            paddingRight: 30,
+            textWrap: "balance",
+          }}>
           {movie.title}
         </Title>
 

@@ -37,14 +37,18 @@ const App = () => {
 
       const pages = Array.from({ length: 5 }, (_, i) => i + 1)
       const responses = await Promise.all(
-        pages.map((page) => moviesApi.fetchPopularMovies(page).catch(() => ({ results: [] }))),
+        pages.map((page) =>
+          moviesApi.fetchPopularMovies(page).catch((err) => {
+            setError(err.message)
+            return { results: [] }
+          }),
+        ),
       )
 
       const allMovies = responses.flatMap((response) => response.results)
       setPopularMovies(allMovies)
     } catch (error) {
       setError(error.message)
-      setPopularMovies([])
     } finally {
       setLoadingPopular(false)
     }

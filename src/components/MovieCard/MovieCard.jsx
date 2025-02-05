@@ -12,6 +12,7 @@ const MovieCard = ({ movie, genres, fallbackSVG }) => (
   <Card
     style={{
       width: "100%",
+      height: 280,
       overflow: "hidden",
       borderRadius: 0,
       boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.1)",
@@ -19,7 +20,7 @@ const MovieCard = ({ movie, genres, fallbackSVG }) => (
     styles={{
       body: { padding: 0 },
     }}>
-    <div style={{ display: "flex", minHeight: 280, position: "relative" }}>
+    <div style={{ display: "flex", height: 280, position: "relative", overflow: "hidden" }}>
       <RatingBadge rating={movie.vote_average} />
 
       <MoviePoster posterPath={movie.poster_path} title={movie.title} fallbackSVG={fallbackSVG} />
@@ -30,15 +31,16 @@ const MovieCard = ({ movie, genres, fallbackSVG }) => (
           position: "relative",
           display: "flex",
           flexDirection: "column",
-          maxHeight: "280px",
-          padding: "0 20px",
+          paddingLeft: 20,
+          paddingRight: 20,
+          marginBottom: 20,
+          overflow: "hidden",
         }}>
         <Title
           level={4}
           style={{
             margin: 0,
             paddingTop: 10,
-            paddingBottom: 10,
             paddingRight: 30,
             textWrap: "balance",
           }}>
@@ -54,11 +56,10 @@ const MovieCard = ({ movie, genres, fallbackSVG }) => (
         <Paragraph
           style={{
             flex: 1,
-            marginBottom: 16,
             color: "#000",
             lineHeight: 1.6,
           }}>
-          {truncateText(movie.overview, 180)}
+          {truncateText(movie.overview, 100)}
         </Paragraph>
       </div>
     </div>

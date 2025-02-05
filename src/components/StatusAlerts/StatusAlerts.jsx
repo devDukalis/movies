@@ -40,7 +40,7 @@ const StatusAlerts = ({
             showIcon
           />
         )}
-        {!searchQuery && !loadingPopular && popularMovies.length === 0 && (
+        {!searchQuery && !loadingPopular && popularMovies.length === 0 && !error && (
           <Alert message="No popular movies available" type="info" showIcon />
         )}
       </>

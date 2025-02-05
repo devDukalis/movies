@@ -2,7 +2,7 @@ import { List } from "antd"
 
 import MovieCard from "../../components/MovieCard/MovieCard"
 
-const MovieList = ({ movies, genres, currentPage, searchQuery, fallbackSVG }) => (
+const MovieList = ({ movies, currentPage, searchQuery, fallbackSVG }) => (
   <List
     grid={{
       gutter: [37, 37],
@@ -16,7 +16,7 @@ const MovieList = ({ movies, genres, currentPage, searchQuery, fallbackSVG }) =>
     dataSource={searchQuery ? movies : movies.slice((currentPage - 1) * 20, currentPage * 20)}
     renderItem={(movie) => (
       <List.Item style={{ margin: 0 }}>
-        <MovieCard movie={movie} genres={genres} fallbackSVG={fallbackSVG} />
+        <MovieCard movie={movie} fallbackSVG={fallbackSVG} />
       </List.Item>
     )}
   />

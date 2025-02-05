@@ -9,6 +9,7 @@ import MovieList from "../../components/MovieList/MovieList.jsx"
 import StatusAlerts from "../../components/StatusAlerts/StatusAlerts.jsx"
 import PaginationControl from "../../components/PaginationControl/PaginationControl.jsx"
 import { API_KEY, BASE_URL, IMAGE_BASE_URL, fallbackSVG } from "../../constants"
+import { GenresProvider } from "../../context/GenresContext"
 
 const moviesApi = new MoviesApi(API_KEY, BASE_URL)
 
@@ -16,7 +17,6 @@ const App = () => {
   const [movies, setMovies] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [genres, setGenres] = useState([])
   const [searchQuery, setSearchQuery] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const [totalResults, setTotalResults] = useState(0)
@@ -80,21 +80,6 @@ const App = () => {
     [isOnline],
   )
 
-  const loadGenres = useCallback(async () => {
-    try {
-      if (!isOnline) {
-        setGenres([])
-        return
-      }
-
-      const genresData = await moviesApi.fetchGenres()
-      setGenres(genresData.genres)
-    } catch (error) {
-      setError(error.message)
-      setGenres([])
-    }
-  }, [isOnline])
-
   const debouncedLoadMovies = useRef(
     debounce((query) => {
       loadMovies(query, 1)
@@ -114,54 +99,54 @@ const App = () => {
 
   useEffect(() => {
     loadPopularMovies()
-    loadGenres()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
-    <div
-      style={{
-        maxWidth: 1200,
-        margin: "0 auto",
-        padding: "20px 32px 20px",
-        backgroundColor: "#FFFFFF",
-        marginBottom: 20,
-      }}>
-      <SearchBar
-        value={searchQuery}
-        onChange={(e) => {
-          setSearchQuery(e.target.value)
-          if (e.target.value === "") setCurrentPage(1)
-        }}
-      />
+    <GenresProvider>
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          padding: "20px 32px 20px",
+          backgroundColor: "#FFFFFF",
+          marginBottom: 20,
+        }}>
+        <SearchBar
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value)
+            if (e.target.value === "") setCurrentPage(1)
+          }}
+        />
 
-      <StatusAlerts
-        isOnline={isOnline}
-        error={error}
-        searchQuery={searchQuery}
-        movies={movies}
-        popularMovies={popularMovies}
-        loading={loading}
-        loadingPopular={loadingPopular}
-      />
-
-      <Spin spinning={loading || loadingPopular} tip="Loading movies..." size="small">
-        <MovieList
-          movies={searchQuery ? movies : popularMovies}
-          genres={genres}
-          currentPage={currentPage}
+        <StatusAlerts
+          isOnline={isOnline}
+          error={error}
           searchQuery={searchQuery}
-          fallbackSVG={fallbackSVG}
-          imageBaseUrl={IMAGE_BASE_URL}
+          movies={movies}
+          popularMovies={popularMovies}
+          loading={loading}
+          loadingPopular={loadingPopular}
         />
 
-        <PaginationControl
-          currentPage={currentPage}
-          totalItems={searchQuery ? totalResults : popularMovies.length}
-          onChange={handlePageChange}
-        />
-      </Spin>
-    </div>
+        <Spin spinning={loading || loadingPopular} tip="Loading movies..." size="small">
+          <MovieList
+            movies={searchQuery ? movies : popularMovies}
+            currentPage={currentPage}
+            searchQuery={searchQuery}
+            fallbackSVG={fallbackSVG}
+            imageBaseUrl={IMAGE_BASE_URL}
+          />
+
+          <PaginationControl
+            currentPage={currentPage}
+            totalItems={searchQuery ? totalResults : popularMovies.length}
+            onChange={handlePageChange}
+          />
+        </Spin>
+      </div>
+    </GenresProvider>
   )
 }
 

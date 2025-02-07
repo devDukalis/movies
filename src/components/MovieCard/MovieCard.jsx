@@ -1,17 +1,22 @@
 import { useContext } from "react"
-import { Card, Typography } from "antd"
+import { Card, Typography, Rate } from "antd"
 import { format } from "date-fns"
 
 import { GenresContext } from "../..//context/GenresContext"
 import RatingBadge from "../../components/RatingBadge/RatingBadge"
 import MoviePoster from "../../components/MoviePoster/MoviePoster"
 import GenreTags from "../../components/GenreTags/GenreTags"
-import { truncateText } from "../../utils/index"
+import { truncateText, getStarColor } from "../../utils/index"
 
 const { Title, Paragraph } = Typography
 
-const MovieCard = ({ movie, fallbackSVG }) => {
+const MovieCard = ({ movie, fallbackSVG, onRate }) => {
   const genres = useContext(GenresContext)
+  const rating = movie.rating || 0
+
+  const handleRateChange = (value) => {
+    onRate(movie.id, value)
+  }
 
   return (
     <Card
@@ -64,8 +69,16 @@ const MovieCard = ({ movie, fallbackSVG }) => {
               color: "#000",
               lineHeight: 1.6,
             }}>
-            {truncateText(movie.overview, 100)}
+            {truncateText(movie.overview, 80)}
           </Paragraph>
+
+          <Rate
+            value={rating}
+            onChange={handleRateChange}
+            style={{ color: getStarColor(rating) }}
+            count={10}
+            allowHalf
+          />
         </div>
       </div>
     </Card>

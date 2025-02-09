@@ -28,11 +28,6 @@ const PaginationControl = ({ currentPage, totalItems, onChange }) => {
           showSizeChanger={false}
           onChange={onChange}
           itemRender={itemRender}
-          // style={{
-          //   margin: "20px 0",
-          //   display: "flex",
-          //   justifyContent: "center",
-          // }}
         />
       </div>
     )

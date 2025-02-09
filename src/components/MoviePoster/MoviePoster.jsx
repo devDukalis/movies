@@ -14,7 +14,7 @@ const MoviePoster = ({ posterPath, title, fallbackSVG }) => {
         className="movie-poster"
         alt={title}
         src={posterPath ? `${IMAGE_BASE_URL}/w500${posterPath}` : fallbackSVG}
-        preview={false}
+        preview={true}
         onLoad={() => setImageLoading(false)}
         onError={(e) => {
           e.target.src = fallbackSVG

@@ -1,12 +1,15 @@
 import { Pagination, Button } from "antd"
 
+import "./styles.css"
+
 const PaginationControl = ({ currentPage, totalItems, onChange }) => {
   const itemRender = (current, type, originalElement) => {
     if (type === "page") {
       return (
         <Button
           type={current === currentPage ? "primary" : "default"}
-          onClick={() => onChange(current)}>
+          onClick={() => onChange(current)}
+          className="pagination-button">
           {current}
         </Button>
       )
@@ -16,19 +19,22 @@ const PaginationControl = ({ currentPage, totalItems, onChange }) => {
 
   return (
     totalItems > 0 && (
-      <Pagination
-        current={currentPage}
-        total={totalItems}
-        pageSize={20}
-        showSizeChanger={false}
-        onChange={onChange}
-        itemRender={itemRender}
-        style={{
-          margin: "20px 0",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      />
+      <div className="pagination-control">
+        <Pagination
+          className="pagination"
+          current={currentPage}
+          total={totalItems}
+          pageSize={20}
+          showSizeChanger={false}
+          onChange={onChange}
+          itemRender={itemRender}
+          // style={{
+          //   margin: "20px 0",
+          //   display: "flex",
+          //   justifyContent: "center",
+          // }}
+        />
+      </div>
     )
   )
 }

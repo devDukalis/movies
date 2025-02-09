@@ -10,6 +10,9 @@ import StatusAlerts from "../../components/StatusAlerts/StatusAlerts.jsx"
 import PaginationControl from "../../components/PaginationControl/PaginationControl.jsx"
 import { API_KEY, BASE_URL, IMAGE_BASE_URL, fallbackSVG } from "../../constants"
 import { GenresProvider } from "../../context/GenresContext"
+import useMediaQuery from "../../hooks/useMediaQuery.js"
+
+import "./styles.css"
 
 const { Content } = Layout
 
@@ -26,6 +29,7 @@ const App = () => {
   const [ratedMovies, setRatedMovies] = useState([])
   const [activeTab, setActiveTab] = useState("search")
   const [itemsPerPage] = useState(20)
+  const isMobile = useMediaQuery("(max-width: 768px)")
 
   const loadMovies = useCallback(
     async (query, page) => {
@@ -97,29 +101,24 @@ const App = () => {
       const ratedMoviesFromStorage = JSON.parse(localStorage.getItem("ratedMovies")) || {}
 
       if (rating === 0) {
-        // Удаляем фильм из localStorage, если рейтинг 0
         delete ratedMoviesFromStorage[movieId]
         localStorage.setItem("ratedMovies", JSON.stringify(ratedMoviesFromStorage))
 
-        // Обновляем состояние ratedMovies
         const updatedRatedMovies = ratedMovies.filter((movie) => movie.id !== movieId)
         setRatedMovies(updatedRatedMovies)
       } else {
-        // Обновляем рейтинг фильма в localStorage
         ratedMoviesFromStorage[movieId] = {
           ...movieToRate,
           rating: rating,
         }
         localStorage.setItem("ratedMovies", JSON.stringify(ratedMoviesFromStorage))
 
-        // Обновляем состояние ratedMovies
         const updatedRatedMovies = ratedMovies.map((movie) =>
           movie.id === movieId ? { ...movie, rating } : movie,
         )
         setRatedMovies(updatedRatedMovies)
       }
 
-      // Обновляем состояние movies
       const updatedMovies = movies.map((movie) =>
         movie.id === movieId ? { ...movie, rating } : movie,
       )
@@ -155,14 +154,7 @@ const App = () => {
     <GenresProvider>
       <Layout className="layout">
         <Content className="content">
-          <div
-            style={{
-              maxWidth: 1200,
-              margin: "0 auto",
-              padding: "20px 32px 20px",
-              backgroundColor: "#FFFFFF",
-              marginBottom: 20,
-            }}>
+          <div className="content-wrapper">
             <StatusAlerts
               isOnline={isOnline}
               error={error}
@@ -174,11 +166,10 @@ const App = () => {
 
             <Tabs
               className="tabs"
-              size="large"
+              size={isMobile ? "small" : "large"}
               centered
               activeKey={activeTab}
               onChange={handleTabChange}
-              // destroyInactiveTabPane={true}
               items={[
                 {
                   key: "search",

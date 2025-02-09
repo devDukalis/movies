@@ -6,6 +6,7 @@ import App from "./components/App/App"
 import ErrorFallback from "./components/ErrorFallback/ErrorFallback"
 
 import "./index.css"
+import "./queries.css"
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

@@ -3,19 +3,17 @@ import { useState } from "react"
 
 import { IMAGE_BASE_URL } from "../../constants"
 
+import "./styles.css"
+
 const MoviePoster = ({ posterPath, title, fallbackSVG }) => {
   const [imageLoading, setImageLoading] = useState(false)
 
   return (
-    <div style={{ flexShrink: 0, borderRight: "1px solid #E0E0E0" }}>
+    <div className="movie-poster-wrapper">
       <Image
+        className="movie-poster"
         alt={title}
         src={posterPath ? `${IMAGE_BASE_URL}/w500${posterPath}` : fallbackSVG}
-        style={{
-          width: "180px",
-          height: "280px",
-          objectFit: "cover",
-        }}
         preview={false}
         onLoad={() => setImageLoading(false)}
         onError={(e) => {
@@ -26,18 +24,7 @@ const MoviePoster = ({ posterPath, title, fallbackSVG }) => {
       />
 
       {imageLoading && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "rgba(255, 255, 255, 0.8)",
-          }}>
+        <div className="spin-wrapper">
           <Spin size="small" />
         </div>
       )}

@@ -1,0 +1,17 @@
+.rating-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #e9d100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  z-index: 1;
+  font-size: 12;
+  font-weight: bold;
+  line-height: 22;
+}

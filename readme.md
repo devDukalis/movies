@@ -2,7 +2,7 @@
 
 ## Предпросмотр
 
-![preview](https://i.postimg.cc/Y0jRXQRc/movies-preview.png)
+![preview](https://i.postimg.cc/HsMM2Sm0/movies-preview.png)
 
 ## Описание
 

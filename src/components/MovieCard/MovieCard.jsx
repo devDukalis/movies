@@ -47,7 +47,7 @@ const MovieCard = ({ movie, fallbackSVG, onRate }) => {
           <GenreTags genreIds={movie.genre_ids} genres={genres} />
         </div>
 
-        <div className="movie-overview-rate-wrapper">
+        <div className="movie-overview-wrapper">
           <Popover content={overviewContent} title="Movie overview" trigger="click">
             <Paragraph className="movie-overview">{truncateText(movie.overview, 80)}</Paragraph>
           </Popover>
